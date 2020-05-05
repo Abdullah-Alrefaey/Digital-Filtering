@@ -47,3 +47,13 @@
 *.bin
 *.txt
 *.check_cache
+
+Codes/Listings/
+
+Codes/Objects/DigitalFiltering.lnp
+
+Codes/Objects/DigitalFiltering
+
+Codes/Objects/DigitalFiltering.build_log.htm
+
+Codes/DigitalFiltering.uvgui.Abdullah-Mohammed
