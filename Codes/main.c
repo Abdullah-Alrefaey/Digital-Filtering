@@ -187,17 +187,21 @@ void main()
 			LCD_Clear();
 			LCD_String("High");
 		}
-		if (Low) {
+		else if (Low) {
 			// Low Filter
 			filterSignal('L');
 			LCD_Clear();
 			LCD_String("Low");
 		}
-		if (Notch) {
+		else if (Notch) {
 			// Notch Filter
 			filterSignal('N');
 			LCD_Clear();
 			LCD_String("Notch");
+		}
+		else {
+			read_adc();
+			output_port = ADCValue;
 		}
 		
 		//LCD_Command(0xc0);					/*go to 2nd line*/
