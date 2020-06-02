@@ -10,6 +10,9 @@ sbit oe=P3^0;
 sbit sc=P3^2; 
 sbit eoc=P3^1; 
 sbit clk=P3^7;  
+sbit High=P3^6; 
+sbit Low=P3^5; 
+sbit Notch=P3^4;  
 #define input_port P0  //ADC
 #define output_port P2
 char Val[5];
@@ -155,7 +158,18 @@ void main()
 			read_adc();
 			adc_readings[i] = ADCValue;
 		}
-		
+		if(High)
+		{
+			// High Filter
+		}
+		if(Low)
+		{
+			// Low Filter
+		}
+		if(Notch)
+		{
+			// Notch Filter
+		}
 		for (i = 0; i < 3; i++)
 		{
 			filteredSignal += NOTCH_Coeffs[i]*adc_readings[2-i];
