@@ -9,11 +9,15 @@ sbit ale=P3^3;
 sbit oe=P3^0; 
 sbit sc=P3^2; 
 sbit eoc=P3^1; 
-sbit clk=P3^7;  
+sbit clk=P3^7;
+sbit High=P3^6; 
+sbit Low=P3^5; 
+sbit Notch=P3^4;  
 #define input_port P0  //ADC
 #define output_port P2
 char Val[5];
-
+double Volts = 0;
+double Signal[10];
 void timer0() interrupt 1  // Function to generate clock of frequency 500KHZ using Timer 0 interrupt.
 {
 clk=~clk;
@@ -136,6 +140,20 @@ void main()
 		//LCD_String_xy(1,1,"   ");
 		read_adc();
 		//LCD_Command(0xc0);					/*go to 2nd line*/
+		
+		Volts = (ADCValue/255)*10;
+		if(High)
+		{
+			// High Filter
+		}
+		if(Low)
+		{
+			// Low Filter
+		}
+		if(Notch)
+		{
+			// Notch Filter
+		}
 		output_port = ADCValue;
 		//sprintf(Val, "%d", ADCValue);
 		//LCD_String_xy(1,1,Val);			/*write string on 2nd line*/
