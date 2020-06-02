@@ -36,7 +36,7 @@ void read_adc()
    ADCValue=0;
    ale=1;
    sc=1;
-   delayns(50);
+   delayns(80);
    ale=0;
    sc=0;
    while(eoc==1);
@@ -123,14 +123,14 @@ void main()
 	ale=0;
 	oe=0;
 	sc=0;
-	TMOD=0x02;
-	TH0=0xFD;
+	//TMOD=0x02;
+	//TH0=0xFD;
 	LCD_String("ADC Connecting");
 	delay(500);
 	LCD_Clear();
 	LCD_String("ADC Value");
-	IE=0x82;
-	TR0=1;
+	//IE=0x82;
+	//TR0=1;
 	while(1)
 	{
 		//LCD_String_xy(1,1,"   ");
