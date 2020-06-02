@@ -25,19 +25,24 @@ void delay(unsigned int count)
      for(i=0;i<count;i++)
      for(j=0;j<112;j++);
 }
+void delayns(unsigned int count)    		
+{
+    int i,j;
+     for(i=0;i<count;i++)
+     for(j=0;j<1;j++);
+}
 void read_adc()
 {
    ADCValue=0;
    ale=1;
    sc=1;
-   delay(1);
+   delayns(50);
    ale=0;
    sc=0;
    while(eoc==1);
    while(eoc==0);
-   oe=1;
    ADCValue=input_port;
-   delay(1);
+   //delayns(10);
 }
 
 void LCD_Command (char cmnd)   /* LCD16x2 command funtion */
