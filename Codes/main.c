@@ -127,14 +127,43 @@ void LCD_Clear(void)
 	LCD_Command (0x80);
 }
 
-void filterSignal(void)
+void filterSignal(char mode)
 {
+	// Filter the input signal in according to the given mode
 	
+	// Read 3 values from ADC
+	for (i = 0; i < 3; i++) {
+		read_adc();
+		adc_readings[i] = ADCValue;
+	}
+	
+	for (i = 0; i < 3; i++) {
+		if (mode == 'H') {
+			filteredSignal += HP_Coeffs[i]*adc_readings[2-i];
+		}
+		if (mode == 'L') {
+			filteredSignal += LP_Coeffs[i]*adc_readings[2-i];
+		}
+		if (mode == 'N') {
+			filteredSignal += NOTCH_Coeffs[i]*adc_readings[2-i];
+		}
+	}
+
+	output_port = filteredSignal;
+	
+	// Swap the ADC Readings
+	read_adc();
+	adc_readings[2] = adc_readings[1];
+	adc_readings[1] = adc_readings[0];
+	adc_readings[0] = ADCValue;
 }
 
 void main()
 {
-
+	
+	High = 0;
+	Low = 0; 
+	Notch = 0;
 	LCD_Init();							/* initialization of LCD*/
 	eoc=1;
 	ale=0;
@@ -152,40 +181,25 @@ void main()
 	{
 		//LCD_String_xy(1,1,"   ");
 		
-		// Read 3 values from ADC
-		for (i = 0; i < 3; i++)
-		{
-			read_adc();
-			adc_readings[i] = ADCValue;
-		}
-		if(High)
-		{
+		if (High) {
 			// High Filter
+			filterSignal('H');
+			LCD_Clear();
+			LCD_String("High");
 		}
-		if(Low)
-		{
+		if (Low) {
 			// Low Filter
+			filterSignal('L');
+			LCD_Clear();
+			LCD_String("Low");
 		}
-		if(Notch)
-		{
+		if (Notch) {
 			// Notch Filter
+			filterSignal('N');
+			LCD_Clear();
+			LCD_String("Notch");
 		}
-		for (i = 0; i < 3; i++)
-		{
-			filteredSignal += NOTCH_Coeffs[i]*adc_readings[2-i];
-		}
-		// 2 -> 3
-		// 1 -> 2
-		// new -> 1
-	
-		read_adc();
-		tempReading = adc_readings[2];
-		adc_readings[2] = adc_readings[1];
-		adc_readings[1] = adc_readings[0];
-		adc_readings[0] = ADCValue;
 		
-		output_port = filteredSignal;
-		//read_adc();
 		//LCD_Command(0xc0);					/*go to 2nd line*/
 		//output_port = ADCValue;
 		//sprintf(Val, "%d", ADCValue);
