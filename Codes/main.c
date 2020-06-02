@@ -128,13 +128,13 @@ void main()
 	TR0=1;
 	while(1)
 	{
-		LCD_String_xy(1,1,"   ");
+		//LCD_String_xy(1,1,"   ");
 		read_adc();
-		LCD_Command(0xc0);					/*go to 2nd line*/
+		//LCD_Command(0xc0);					/*go to 2nd line*/
 		output_port = ADCValue;
-		sprintf(Val, "%d", ADCValue);
-		LCD_String_xy(1,1,Val);			/*write string on 2nd line*/
-		ADCValue=0;
+		//sprintf(Val, "%d", ADCValue);
+		//LCD_String_xy(1,1,Val);			/*write string on 2nd line*/
+		//ADCValue=0;
 	}
 	
 }
